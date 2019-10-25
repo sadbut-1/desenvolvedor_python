@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Gráfico - Produção médica{% endblock %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'relatorios/css/relatorios.css' %}">
+<input type="hidden" id="consultas" name="variable" value="{{ consultas }}">
+
+<div class="row justify-content-md-center mt-4 mb-4">
+    <div class="col-10">
+        <div class="card card-body">
+            <form class="form-inline" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <label for="medico" class="mr-2">Médico </label>
+                    <select class="select-medico form-control" name="medico" id="medico">
+                        <option value="">TODOS</option>
+                        {% for nome in medicos %}
+                        <option value="{{ nome }}" {% if nome == historico.medico %} selected {% endif %}>{{ nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary ml-3 mb-2">FILTRAR</button>
+                <a href="/relatorios/grafico_producao_medica" class="btn btn-sm btn-secondary ml-2 mb-2">Limpar</a>
+                <a href="/relatorios/producao_medica" class="btn btn-sm btn-success ml-5 mb-2">Voltar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// get the data
+  var data = JSON.parse(document.getElementById("consultas").value);
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 200},
+    width = 1024 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleBand().range([0, width]).padding(0.1);
+var y = d3.scaleLinear().range([height, 0]);
+
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  // format the data
+  data.forEach(function(d) {
+    d.total = +d.total;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.mes; }));
+  y.domain([0, d3.max(data, function(d) { return d.total; })]);
+
+  // append the rectangles for the bar chart
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.mes); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.total); })
+      .attr("height", function(d) { return height - y(d.total); });
+
+  // add the x Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+</script>
+<script src="{% static 'relatorios/js/relatorios.js' %}"></script>
+{% endblock %}

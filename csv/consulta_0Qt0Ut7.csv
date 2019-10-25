@@ -1,0 +1,31 @@
+NUM_GUIA_CONSULTA;COD_MEDICO;NOME_MEDICO;DATA_CONSULTA;VALOR_CONSULTA
+1;123;João da Silva;01/02/17;90
+2;124;José Ramos;02/02/17;91
+3;125;Mariana Torres;03/02/17;92
+4;126;Getúlio Miranda;04/02/17;93
+5;127;Ângela Costa;05/02/17;94
+6;123;João da Silva;01/03/17;90
+7;124;José Ramos;02/03/17;91
+8;125;Mariana Torres;03/03/17;92
+9;126;Getúlio Miranda;04/03/17;93
+10;127;Ângela Costa;05/03/17;94
+11;123;João da Silva;01/04/17;90
+12;124;José Ramos;02/04/17;91
+13;125;Mariana Torres;03/04/17;92
+14;126;Getúlio Miranda;04/04/17;93
+15;127;Ângela Costa;05/04/17;94
+16;123;João da Silva;01/05/17;90
+17;124;José Ramos;02/05/17;91
+18;125;Mariana Torres;03/05/17;92
+19;126;Getúlio Miranda;04/05/17;93
+20;127;Ângela Costa;05/05/17;94
+21;123;João da Silva;01/07/17;92
+22;124;José Ramos;02/07/17;93
+23;125;Mariana Torres;03/07/17;94
+24;126;Getúlio Miranda;04/07/17;95
+25;127;Ângela Costa;05/07/17;96
+26;123;João da Silva;01/01/18;92
+27;124;José Ramos;02/01/18;93
+28;125;Mariana Torres;03/01/18;94
+29;126;Getúlio Miranda;04/01/18;95
+30;127;Ângela Costa;05/01/18;96

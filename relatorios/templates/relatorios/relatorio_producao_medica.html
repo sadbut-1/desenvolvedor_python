@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Relatório de produção médica{% endblock %}
+{% block content %}
+{% load static %}
+<div class="row justify-content-md-center mt-4 mb-4">
+    <div class="col-10">
+        <div class="card card-body">
+            <form class="form-inline" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <label for="medico" class="mr-2">Médico </label>
+                    <select class="select-medico form-control" name="medico" id="medico">
+                        <option value="">TODOS</option>
+                        {% for nome in medicos %}
+                        <option value="{{ nome }}" {% if nome == historico.medico %} selected {% endif %}>{{ nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="data_inicio" class="mr-2">Periodo</label>
+                    <input type="date" class="form-control form-control-sm" id="data_inicio" name="data_inicio" value="{{ historico.data_inicio }}">
+                    <label for="data_fim" class="mr-2 ml-2">à</label>
+                    <input type="date" class="form-control form-control-sm" id="data_fim" name="data_fim" value="{{ historico.data_fim }}">
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary mb-2">FILTRAR</button>
+                <a href="/relatorios/producao_medica/" class="btn btn-sm btn-secondary ml-2 mb-2">Limpar</a>
+                <a href="/relatorios/grafico_producao_medica" class="btn btn-sm btn-success ml-5 mb-2">Gerar Gráfico</a>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-10">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nome do Médico</th>
+                <th>Número da Guia</th>
+                <th>Data da Consulta</th>
+                <th>Valor da Consulta</th>
+                <th>Gasto por Consulta</th>
+                <th>Qtde Exames</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for consulta in consultas %}
+            <tr>
+                <td>{{ consulta.nome_medico | safe }}</td>
+                <td>{{ consulta.num_guia_consulta | safe }}</td>
+                <td>{{ consulta.data_consulta | date:"d/m/Y" }}</td>
+                <td>{{ consulta.valor_consulta | floatformat:2 }}</td>
+                <td>{% if consulta.gasto_consulta is None %}
+                    0
+                    {% else %}
+                    {{ consulta.gasto_consulta | floatformat:2 }}
+                    {% endif %}
+                </td>
+                <td>{{ consulta.exames.count | safe }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+
+</script>
+<script src="{% static 'relatorios/js/relatorios.js' %}"></script>
+
+{% endblock %}
